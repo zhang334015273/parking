@@ -1,51 +1,115 @@
 package com.ctfo.parking.splash;
 
-import android.app.Activity;
+
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.MenuItem;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.ctfo.parking.R;
-import com.ctfo.parking.util.VolleyUtil;
+import com.ctfo.parking.home.HomeActivity;
+import com.ctfo.parking.mine.MineActivity;
+import com.ctfo.parking.near.NearActivity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
-public class NaviTabActivity extends Activity {
+public class NaviTabActivity extends FragmentActivity {
+
+
+    private HomeActivity homeActivity;
+    private NearActivity nearActivity;
+    private MineActivity mineActivity;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navi_tab_activity);
-        testVolley();
+
+        initView();
+
+        initFragment();
 
     }
 
-    private void testVolley(){
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, "http://appback.ctfoparking.com/app/homePage?id=%E5%8C%97%E4%BA%AC%E5%B8%82", null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            boolean status = response.getBoolean("state");
-                            if (status) {
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.toString();
-                        //Toast.makeText(MainActivity.this,volleyError.toString(),Toast.LENGTH_LONG).show();
-                    }
-                });
-        VolleyUtil.doRequest(request);
+    /**
+     * 初始化view
+     */
+    private void initView(){
+        BottomNavigationView naviView = findViewById(R.id.navigation);
+        //tab切换事件
+        naviView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.navigation_home:
+                        showFragment(homeActivity);
+                    return true;
+                    case R.id.navigation_near:
+                        showFragment(nearActivity);
+                    return true;
+                    case R.id.navigation_mine:
+                        showFragment(mineActivity);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
+
+    /**
+     * 初始化fragment
+     */
+    private void initFragment(){
+        homeActivity = new HomeActivity();
+        nearActivity = new NearActivity();
+        mineActivity = new MineActivity();
+        addFragment(homeActivity);
+        addFragment(nearActivity);
+        addFragment(mineActivity);
+        //默认显示首页
+        showFragment(homeActivity);
+    }
+
+    /**
+     * 添加 fragment
+     * @param fragment
+     */
+    private void addFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.content, fragment);
+        fragmentTransaction.commit();
+    }
+
+    /**
+     * 显示 fragment
+     * @param fragment
+     */
+    private void showFragment(Fragment fragment){
+        hideAllFragment();
+        getSupportFragmentManager().beginTransaction().show(fragment).commit();
+    }
+
+    /**
+     * 隐藏
+     * @param fragment
+     */
+    private void hideFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().hide(fragment).commit();
+    }
+
+    /**
+     * 隐藏所有
+     */
+    private void hideAllFragment(){
+        hideFragment(homeActivity);
+        hideFragment(nearActivity);
+        hideFragment(mineActivity);
+    }
+
+
 }

@@ -8,4 +8,8 @@
     <string name="title_home">首页</string>
     <string name="title_near">附近</string>
     <string name="title_mine">我的</string>
+
+
+    <!-- near 相关 -->
+    <string name="near_search_text">搜索</string>
 </resources>

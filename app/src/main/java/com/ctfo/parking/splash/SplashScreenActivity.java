@@ -18,7 +18,7 @@ public class SplashScreenActivity extends Activity {
                 try{
                     sleep(1000);
                     startActivity(new Intent(getApplicationContext(), NaviTabActivity.class));
-//                    finish();
+                    finish();
                 }catch (Exception e){
                     e.printStackTrace();
                 }

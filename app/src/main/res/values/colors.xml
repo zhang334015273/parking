@@ -5,4 +5,15 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="navi_tab_color">#7374FF</color>
+
+    <!-- global 全局相关 -->
+    <color name="global_white">#FFFFFF</color>
+    <color name="global_black">#000000</color>
+
+
+    <!-- near 相关 -->
+    <color name="near_search_background_color">#7078FF</color>
+    <color name="near_search_text_color">#FFFFFF</color>
+    <color name="near_keyword_color">#333333</color>>
+    <color name="near_keyword_hint_color">#C0C0C0</color>
 </resources>

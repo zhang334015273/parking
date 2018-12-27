@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.amap.api.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+    </com.amap.api.maps.MapView>
+
+    <RelativeLayout
+        android:id="@+id/search_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/btn_search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@color/near_search_background_color"
+            android:clickable="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:gravity="center"
+            android:text="搜索"
+            android:textColor="@color/near_search_text_color"
+            android:textSize="14dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btn_search"
+            android:layout_toStartOf="@+id/btn_search"
+            android:background="@color/global_white"
+            android:paddingLeft="10dp"
+            android:clickable="true"
+            android:gravity="center_vertical" >
+
+
+
+            <EditText
+                android:id="@+id/input_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableLeft="@mipmap/near_search"
+                android:drawablePadding="8dp"
+                android:hint="请输入您的目的地"
+                android:textColorHint="@color/near_keyword_hint_color"
+                android:background="@color/global_white"
+                android:singleLine="true"
+                android:textColor="@color/near_keyword_color"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/search_list_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@id/search_bar_layout"
+        android:background="@color/global_black"
+        android:orientation="vertical" >
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>
