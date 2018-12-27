@@ -191,6 +191,7 @@ public class NearActivity extends Fragment implements AMapLocationListener,Cloud
         CloudSearch.SearchBound bound = new CloudSearch.SearchBound(cityName);
         try {
             mQuery = new CloudSearch.Query(Constant.AMAP_PARKING_TABLE_ID, keyWord, bound);
+            mQuery.setPageSize(10);
             mCloudSearch.searchCloudAsyn(mQuery);
         } catch (AMapException e) {
             e.printStackTrace();
@@ -224,7 +225,9 @@ public class NearActivity extends Fragment implements AMapLocationListener,Cloud
                         List<CloudItem> items = result.getClouds();
                         for(CloudItem item : items){
                             TextView itemTextView = new TextView(this.getContext());
-                            ViewGroup.LayoutParams lParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                            ViewGroup.MarginLayoutParams lParams = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                            lParams.topMargin = 10;
+                            lParams.bottomMargin = 10;
                             itemTextView.setLayoutParams(lParams);
                             itemTextView.setText(item.getTitle());
                             searchLayout.addView(itemTextView);
