@@ -1,16 +1,21 @@
 package com.ctfo.parking.near;
 
 
+import android.util.Log;
+
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.model.BitmapDescriptor;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.services.cloud.CloudItem;
+import com.ctfo.parking.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -27,7 +32,7 @@ public class CloudOverlay {
 	public void addToMap() {
 		for (int i = 0; i < mPois.size(); i++) {
 			Marker marker = mAMap.addMarker(getMarkerOptions(i));
-			marker.setObject(i);
+			marker.setObject(mPois.get(i));
 			mPoiMarks.add(marker);
 		}
 	}
@@ -47,6 +52,15 @@ public class CloudOverlay {
 		}
 	}
 
+	public void zoomToSpan(int scale) {
+		if (mPois != null && mPois.size() > 0) {
+			if (mAMap == null)
+				return;
+			LatLngBounds bounds = getLatLngBounds();
+			mAMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, scale));
+		}
+	}
+
 	private LatLngBounds getLatLngBounds() {
 		LatLngBounds.Builder b = LatLngBounds.builder();
 		for (int i = 0; i < mPois.size(); i++) {
@@ -57,13 +71,30 @@ public class CloudOverlay {
 	}
 
 	private MarkerOptions getMarkerOptions(int index) {
-		return new MarkerOptions()
+		MarkerOptions options =  new MarkerOptions()
 				.position(
 						new LatLng(mPois.get(index).getLatLonPoint()
 								.getLatitude(), mPois.get(index)
-								.getLatLonPoint().getLongitude()))
-				.title(getTitle(index)).snippet(getSnippet(index))
-				.icon(getBitmapDescriptor(index));
+								.getLatLonPoint().getLongitude()));
+		HashMap<String,String> map = mPois.get(index).getCustomfield();
+		if(map!= null && !map.isEmpty()){
+			if(map.get("totalVipSpaces")!= null && Integer.valueOf(map.get("totalVipSpaces"))>0){
+				options.icon(BitmapDescriptorFactory.fromResource(R.mipmap.near_map_marker_vip_select));
+			}else {
+				if(map.get("type")!=null){
+					if (Integer.valueOf(map.get("type"))==0){
+						options.icon(BitmapDescriptorFactory.fromResource(R.mipmap.near_map_marker_green_0));
+					} else if (Integer.valueOf(map.get("type"))==1){
+						options.icon(BitmapDescriptorFactory.fromResource(R.mipmap.near_map_marker_green_1));
+					} else {
+						options.icon(BitmapDescriptorFactory.fromResource(R.mipmap.near_map_marker_normal));
+					}
+				}else{
+					options.icon(BitmapDescriptorFactory.fromResource(R.mipmap.near_map_marker_normal));
+				}
+			}
+		}
+		return options;
 	}
 
 	protected BitmapDescriptor getBitmapDescriptor(int index) {

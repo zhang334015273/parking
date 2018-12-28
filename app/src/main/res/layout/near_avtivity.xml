@@ -8,8 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
-    </com.amap.api.maps.MapView>
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"></com.amap.api.maps.MapView>
 
     <RelativeLayout
         android:id="@+id/search_bar_layout"
@@ -77,6 +80,328 @@
         android:orientation="vertical" >
 
 
+
+    </LinearLayout>
+
+
+    <!-- item detail layout -->
+    <LinearLayout
+        android:id="@+id/item_detail_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_below="@id/search_bar_layout"
+        android:background="@color/global_white"
+        android:paddingLeft="5dp"
+        android:visibility="gone"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            >
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/near_item_detail_close"
+                android:layout_marginTop="5dp"
+                android:layout_alignParentRight="true">
+            </ImageView>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="停车场"
+            android:textSize="20sp"
+            android:textColor="#7078ff"
+            />
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="空余车位:"
+                    android:textSize="15sp"
+                    android:textColor="@color/near_item_text_color"
+                    />
+
+                <TextView
+                    android:id="@+id/all_free_spaces"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="0"
+                    android:layout_marginLeft="3dp"
+                    android:textColor="@color/near_item_numer_color"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="个"
+                    android:textColor="@color/near_item_text_color"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="共享车位:"
+                    android:textSize="15sp"
+                    android:textColor="@color/near_item_text_color"
+                    />
+
+                <TextView
+                    android:id="@+id/total_vip_spaces"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="0"
+                    android:layout_marginLeft="3dp"
+                    android:textColor="@color/near_item_numer_color"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="个"
+                    android:textColor="@color/near_item_text_color"
+                    />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="总车位:"
+                    android:textSize="15sp"
+                    android:textColor="@color/near_item_text_color"
+                    />
+
+                <TextView
+                    android:id="@+id/car_space_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="0"
+                    android:layout_marginLeft="3dp"
+                    android:textColor="@color/near_item_numer_color"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="个"
+                    android:textColor="@color/near_item_text_color"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="剩余共享车位:"
+                    android:textSize="15sp"
+                    android:textColor="@color/near_item_text_color"
+                    />
+
+                <TextView
+                    android:id="@+id/total_vip_free_spaces"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="0"
+                    android:layout_marginLeft="3dp"
+                    android:textColor="@color/near_item_numer_color"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="个"
+                    android:textColor="@color/near_item_text_color"
+                    />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/near_item_line_color">
+
+        </View>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="收费标准:"
+                    android:textSize="15sp"
+                    android:textColor="@color/near_item_text_color"
+                    />
+
+                <TextView
+                    android:id="@+id/fee_scale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="0元/小时"
+                    android:layout_marginLeft="3dp"
+                    android:textColor="@color/near_item_numer_color"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/pay"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="¥缴费"
+                android:layout_centerInParent="true"
+                android:textSize="15sp"
+                android:background="@drawable/near_pay_text_round"
+                android:textColor="@color/global_white"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="center_vertical"
+                />
+
+            <TextView
+                android:id="@+id/to_here"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="到这去"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/near_tothere_text_round"
+                android:textColor="@color/global_white"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="center_vertical"
+                />
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+
+    <!-- 底部div -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/global_white"
+        android:layout_alignParentBottom="true"
+        >
+        <TextView
+            android:id="@+id/show_result"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="点击展开更多结果"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:textColor="#FFAC24">
+
+        </TextView>
+
+
+        <LinearLayout
+            android:id="@+id/bound_result_layout"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:id="@+id/sort_tab_radio"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/sort_by_price"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="价格优先"
+                    android:button="@null"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:textColor="@drawable/near_bottom_radio_selector"
+                    android:checked="true"
+                    />
+
+                <RadioButton
+                    android:id="@+id/sort_by_distance"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="距离优先"
+                    android:button="@null"
+                    android:textSize="16dp"
+                    android:textColor="@drawable/near_bottom_radio_selector"
+                    android:gravity="center"/>
+
+            </RadioGroup>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/near_item_line_color"/>
+            <ListView
+                android:id="@+id/list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </ListView>
+
+        </LinearLayout>
 
     </LinearLayout>
 

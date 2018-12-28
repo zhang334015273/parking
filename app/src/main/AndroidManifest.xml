@@ -46,8 +46,11 @@
         <activity
             android:name=".splash.NaviTabActivity"
             android:label="@string/navi_tab_title">
-
         </activity>
+
+        <activity android:name="com.amap.api.navi.AmapRouteActivity"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"

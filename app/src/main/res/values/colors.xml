@@ -12,8 +12,11 @@
 
 
     <!-- near 相关 -->
-    <color name="near_search_background_color">#7078FF</color>
+    <color name="near_search_background_color">#FFAC24</color>
     <color name="near_search_text_color">#FFFFFF</color>
-    <color name="near_keyword_color">#333333</color>>
+    <color name="near_keyword_color">#333333</color>
     <color name="near_keyword_hint_color">#C0C0C0</color>
+    <color name="near_item_text_color">#333333</color>
+    <color name="near_item_numer_color">#FFAC24</color>
+    <color name="near_item_line_color">#C9C9C9</color>
 </resources>
