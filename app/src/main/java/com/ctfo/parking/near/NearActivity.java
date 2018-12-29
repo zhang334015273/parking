@@ -65,6 +65,7 @@ public class NearActivity extends Fragment implements AMapLocationListener,Cloud
     //中心点
     private LatLonPoint mCenterPoint;
     private String cityName;
+    private String address;
 
     //云检索
     private String sortFiled;
@@ -119,6 +120,50 @@ public class NearActivity extends Fragment implements AMapLocationListener,Cloud
 
         initBoundResultView();
 
+
+        initRightView();
+    }
+
+
+    private boolean tool1Select = false;
+    private boolean tool2Select = false;
+    private boolean tool3Select = false;
+
+    private void initRightView(){
+        view.findViewById(R.id.map_tool_1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tool1Select = !tool1Select;
+                aMap.setTrafficEnabled(tool1Select);
+                if(tool1Select){
+                    v.setBackground(NearActivity.this.getContext().getResources().getDrawable(R.mipmap.near_map_tool_1_selected));
+                }else{
+                    v.setBackground(NearActivity.this.getContext().getResources().getDrawable(R.mipmap.near_map_tool_1));
+                }
+            }
+        });
+        view.findViewById(R.id.map_tool_2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tool2Select = !tool2Select;
+                if(tool2Select){
+                    v.setBackground(NearActivity.this.getContext().getResources().getDrawable(R.mipmap.near_map_tool_2_selected));
+                }else{
+                    v.setBackground(NearActivity.this.getContext().getResources().getDrawable(R.mipmap.near_map_tool_2));
+                }
+            }
+        });
+        view.findViewById(R.id.map_tool_3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tool3Select = !tool3Select;
+                if(tool3Select){
+                    v.setBackground(NearActivity.this.getContext().getResources().getDrawable(R.mipmap.near_map_tool_3_selected));
+                }else{
+                    v.setBackground(NearActivity.this.getContext().getResources().getDrawable(R.mipmap.near_map_tool_3));
+                }
+            }
+        });
     }
 
     /**
@@ -128,7 +173,12 @@ public class NearActivity extends Fragment implements AMapLocationListener,Cloud
         showResult = view.findViewById(R.id.show_result);
         boundResultLayout = view.findViewById(R.id.bound_result_layout);
         resultListView = view.findViewById(R.id.list_view);
-        adapter = new BoundResultAdapter(this.getContext());
+        adapter = new BoundResultAdapter(this.getContext(), new BoundResultAdapter.NaviClickListener() {
+            @Override
+            public void toHere(CloudItem item) {
+                startNavi(item);
+            }
+        });
         resultListView.setAdapter(adapter);
         showResult.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,7 +230,7 @@ public class NearActivity extends Fragment implements AMapLocationListener,Cloud
      * 加载item数据
      * @param item
      */
-    private void loadItemDetailData(CloudItem item){
+    private void loadItemDetailData(final CloudItem item){
         itemDetail = item;
         itemDetailLayout.setVisibility(View.VISIBLE);
         itemTitle.setText(StringUtil.formatString(item.getTitle(),"-"));
@@ -198,6 +248,12 @@ public class NearActivity extends Fragment implements AMapLocationListener,Cloud
             totalVipFreeSpaces.setText("-");
             feeScale.setText("-");
         }
+        toHere.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startNavi(item);
+            }
+        });
     }
 
     /**
@@ -251,6 +307,7 @@ public class NearActivity extends Fragment implements AMapLocationListener,Cloud
         mapView = view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         aMap = mapView.getMap();
+        aMap.getUiSettings().setZoomControlsEnabled(false);
         aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -276,6 +333,19 @@ public class NearActivity extends Fragment implements AMapLocationListener,Cloud
         mLocationOption.setInterval(2500);
         mlocationClient.setLocationOption(mLocationOption);
         mlocationClient.startLocation();
+
+
+        //定位按钮
+        view.findViewById(R.id.map_location).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //重新搜索
+                itemDetailLayout.setVisibility(View.GONE);
+                searchLayout.removeAllViews();
+                mCenterPoint = new LatLonPoint(locationMarker.getPosition().latitude,locationMarker.getPosition().longitude);
+                cloudSearchByBound(mCenterPoint);
+            }
+        });
     }
 
 
@@ -286,6 +356,7 @@ public class NearActivity extends Fragment implements AMapLocationListener,Cloud
             if(aMapLocation.getErrorCode() == 0){
                 LatLng latLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
                 cityName = aMapLocation.getCity();
+                address = aMapLocation.getAddress();
                 //展示自定义定位小蓝点
                 if(locationMarker == null) {
                     //首次定位
@@ -412,12 +483,12 @@ public class NearActivity extends Fragment implements AMapLocationListener,Cloud
             mPoiCloudOverlay.removeFromMap();
             mPoiCloudOverlay.addToMap();
             if (bound.equals(CloudSearch.SearchBound.BOUND_SHAPE)){
-                mPoiCloudOverlay.zoomToSpan(14);
+                mPoiCloudOverlay.zoomToSpan();
             }else if(bound.equals(CloudSearch.SearchBound.LOCAL_SHAPE)){
                 if (items.size()>1){
-                    mPoiCloudOverlay.zoomToSpan(12);
+                    mPoiCloudOverlay.zoomToSpan();
                 }else{
-                    mPoiCloudOverlay.zoomToSpan(20);
+                    mPoiCloudOverlay.zoomToSpan();
                 }
             }
         }
@@ -431,10 +502,19 @@ public class NearActivity extends Fragment implements AMapLocationListener,Cloud
 
     }
 
+
+    /**
+     * 启动导航
+     * @param item 终点
+     */
     private void startNavi(CloudItem item){
-        Poi start = new Poi("三元桥", new LatLng(39.96087,116.45798), "");
-        Poi end = new Poi("北京站", new LatLng(39.904556, 116.427231), "B000A83M61");
-        AmapNaviPage.getInstance().showRouteActivity(this.getContext(), new AmapNaviParams(start, null, end, AmapNaviType.DRIVER), null);
+        Poi start = new Poi(address, new LatLng(mCenterPoint.getLatitude(),mCenterPoint.getLongitude()), "");
+        Poi end = new Poi(item.getTitle(), new LatLng(item.getLatLonPoint().getLatitude(), item.getLatLonPoint().getLongitude()), "");
+        try{
+            AmapNaviPage.getInstance().showRouteActivity(this.getContext(), new AmapNaviParams(start, null, end, AmapNaviType.DRIVER), null);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -461,4 +541,7 @@ public class NearActivity extends Fragment implements AMapLocationListener,Cloud
             mlocationClient.onDestroy();
         }
     }
+
+
+
 }

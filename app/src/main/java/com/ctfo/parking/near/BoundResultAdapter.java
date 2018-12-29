@@ -16,11 +16,17 @@ import java.util.List;
 
 public class BoundResultAdapter extends BaseAdapter {
 
+    public interface NaviClickListener {
+        public void toHere(CloudItem item);
+    }
+
     private List<CloudItem> items;
     private Context context;
+    private NaviClickListener naviClickListener;
 
-    public BoundResultAdapter(Context context){
+    public BoundResultAdapter(Context context,NaviClickListener naviClickListener){
         this.context = context;
+        this.naviClickListener = naviClickListener;
     }
 
     @Override
@@ -40,7 +46,7 @@ public class BoundResultAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        CloudItem item = items.get(position);
+        final CloudItem item = items.get(position);
         View view;
         if(convertView == null){
             view = LayoutInflater.from(context).inflate(R.layout.near_search_result_list_item, null);
@@ -55,6 +61,14 @@ public class BoundResultAdapter extends BaseAdapter {
         }else{
             ((TextView)view.findViewById(R.id.fee_scale)).setText("-");
         }
+
+        view.findViewById(R.id.to_here).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                naviClickListener.toHere(item);
+            }
+        });
+
         return view;
     }
 
