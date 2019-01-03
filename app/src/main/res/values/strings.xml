@@ -3,7 +3,11 @@
     <string name="app_splash">启动页</string>
 
 
+    <!-- mainfest 标题 -->
     <string name="navi_tab_title">选项页</string>
+    <string name="mine_login_title">选项页</string>
+
+
 
     <string name="title_home">首页</string>
     <string name="title_near">附近</string>

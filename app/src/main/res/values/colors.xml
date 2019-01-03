@@ -9,6 +9,7 @@
     <!-- global 全局相关 -->
     <color name="global_white">#FFFFFF</color>
     <color name="global_black">#000000</color>
+    <color name="global_orange">#FFAC24</color>
 
 
     <!-- near 相关 -->
@@ -19,4 +20,7 @@
     <color name="near_item_text_color">#333333</color>
     <color name="near_item_numer_color">#FFAC24</color>
     <color name="near_item_line_color">#C9C9C9</color>
+
+
+    <!-- mine 相关 -->
 </resources>

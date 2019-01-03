@@ -49,6 +49,15 @@
             android:label="@string/navi_tab_title">
         </activity>
 
+        <activity
+            android:name=".mine.LoginActivity"
+            android:label="@string/mine_login_title">
+
+        </activity>
+
+
+
+        <!-- 高德地图 相关 -->
         <activity android:name="com.amap.api.navi.AmapRouteActivity"
             android:theme="@android:style/Theme.NoTitleBar"
             android:configChanges="orientation|keyboardHidden|screenSize" />

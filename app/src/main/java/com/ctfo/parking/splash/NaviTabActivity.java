@@ -1,6 +1,7 @@
 package com.ctfo.parking.splash;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -12,10 +13,14 @@ import android.view.MenuItem;
 
 import com.ctfo.parking.R;
 import com.ctfo.parking.home.HomeActivity;
+import com.ctfo.parking.mine.LoginActivity;
 import com.ctfo.parking.mine.MineActivity;
 import com.ctfo.parking.near.NearActivity;
+import com.ctfo.parking.util.UserSPUtil;
 
-
+/**
+ * 首页tab界面
+ */
 public class NaviTabActivity extends FragmentActivity {
 
 
@@ -52,7 +57,12 @@ public class NaviTabActivity extends FragmentActivity {
                         showFragment(nearActivity);
                     return true;
                     case R.id.navigation_mine:
-                        showFragment(mineActivity);
+                        //如果登录才会显示界面
+                        if (UserSPUtil.isLogin()){
+                            showFragment(mineActivity);
+                        }else {
+                            startActivity(new Intent(NaviTabActivity.this, LoginActivity.class));
+                        }
                     return true;
                 }
                 return false;
